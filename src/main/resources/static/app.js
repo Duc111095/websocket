@@ -6,27 +6,27 @@ stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
     stompClient.subscribe('/topic/greetings', (greeting) => {
-        showGreetings(JSON.parse(greeting.body).content);
+        showGreeting(JSON.parse(greeting.body).content);
     });
 };
 
 stompClient.onWebSocketError = (error) => {
     console.error('Error with websocket', error);
-}
+};
 
 stompClient.onStompError = (frame) => {
-    console.error('Broker reported error: ' + frame.headers['message'])
-    console.error('Additional details: ' + frame.body)
-}
+    console.error('Broker reported error: ' + frame.headers['message']);
+    console.error('Additional details: ' + frame.body);
+};
 
 function setConnected(connected) {
-    $("#content").prop("disabled", connected);
+    $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
-        $("#conversion").show();
+        $("#conversation").show();
     }
     else {
-        $("#conversion").hide();
+        $("#conversation").hide();
     }
     $("#greetings").html("");
 }
@@ -48,15 +48,13 @@ function sendName() {
     });
 }
 
-function showGreetings(message) {
+function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
-    console.log(message);
 }
 
 $(function () {
     $("form").on('submit', (e) => e.preventDefault());
-    $("#connect").click(() => connect());
-    $("#disconnect").click(() => disconnect());
-    $("#send").click(() => sendName());
-})
-
+    $( "#connect" ).click(() => connect());
+    $( "#disconnect" ).click(() => disconnect());
+    $( "#send" ).click(() => sendName());
+});
